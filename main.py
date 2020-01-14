@@ -8,7 +8,7 @@ from view.dashboards import Dashboards, SingleDashboard, CreateDashboard
 api.add_resource(Users, "/users")
 api.add_resource(SihgleUser, "/users/<int:user_id>")
 
-api.add_resource(Tasks, "/tasks/dashboard/<int:dashboard_id>")
+api.add_resource(Tasks, "/tasks")
 api.add_resource(SingleTask, "/tasks/<int:task_id>")
 
 api.add_resource(CreateDashboard, "/dashboards/create/<int:user_id>")

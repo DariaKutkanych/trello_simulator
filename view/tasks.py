@@ -8,17 +8,17 @@ class Tasks(Resource):
     def get(self):
         return [task.serialize() for task in Task.query.all()]
 
-    def post(self, dashboard_id):
+    def post(self):
         data = request.get_json()
+        dashboard_id = data["dashboard_id"]
         creator = db.session.query(dashboard_users_table).filter_by(
             dashboard_id=dashboard_id).one()[1]
-        data.update(creator_id=creator, dashboard_id=dashboard_id)
+        data.update(creator_id=creator)
 
         task = Task(**data)
         db.session.add(task)
         db.session.commit()
 
-        return creator
         return {"id": task.id}, 201
 
 

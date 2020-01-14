@@ -6,7 +6,7 @@ from models import User, Task, Dashboard, dashboard_users_table
 
 class Dashboards(Resource):
     def get(self):
-        return [x.serialize for x in Dashboard.query.all()]
+        return [x.serialize() for x in Dashboard.query.all()]
 
 class CreateDashboard(Resource):
     def post(self, user_id):
