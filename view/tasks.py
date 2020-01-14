@@ -1,19 +1,24 @@
 from flask import request
 from flask_restful import Resource
 from settings import db
-from models import Task
+from models import Task, Dashboard, User, dashboard_users_table
 
 
 class Tasks(Resource):
     def get(self):
         return [task.serialize() for task in Task.query.all()]
 
-    def post(self):
+    def post(self, dashboard_id):
         data = request.get_json()
+        creator = db.session.query(dashboard_users_table).filter_by(
+            dashboard_id=dashboard_id).one()[1]
+        data.update(creator_id=creator, dashboard_id=dashboard_id)
+
         task = Task(**data)
         db.session.add(task)
-        db.commit()
+        db.session.commit()
 
+        return creator
         return {"id": task.id}, 201
 
 

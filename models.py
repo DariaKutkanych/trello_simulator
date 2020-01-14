@@ -55,18 +55,16 @@ class Dashboard(db.Model):
     __tablename__ = "dashboards"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), unique=True, nullable=False)
     users = db.relationship("User",
                             secondary=dashboard_users_table,
-                            backref="dashbosrds")
+                            backref="dashboards")
     tasks = db.relationship("Task", backref="dashboards")
 
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.name,
-            "users": self.users,
-            "tasks": self.tasks,
+            "name": self.name
         }
 
 
