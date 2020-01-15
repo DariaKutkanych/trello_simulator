@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from settings import db
-from models import Task, Dashboard, User, dashboard_users_table
+from models import Task, Dashboard, User, dashboard_users_table, task_users_table
 
 
 class Tasks(Resource):
@@ -20,6 +20,15 @@ class Tasks(Resource):
         db.session.commit()
 
         return {"id": task.id}, 201
+
+class AssignTask(Resource):
+    def post(self, task_id):
+        data = request.get_json()
+        assignments = task_users_table.insert(). \
+            values(task_id=task_id, user_id=data["user_id"])
+        db.session.execute(assignments)
+        db.session.commit()
+        return {"id": task_id}, 201
 
 
 class SingleTask(Resource):
